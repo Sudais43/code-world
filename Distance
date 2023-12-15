@@ -1,0 +1,94 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+using namespace std;
+int isFeet(string);
+
+class Distance{
+
+private:
+    int feet;
+    float inches;
+
+public:
+    Distance(int f=0, float i=0.0): feet(f),inches(i){}
+    void getdist();
+    void showdist();
+};
+
+void Distance::getdist() {
+
+    string data;
+
+    while (true){
+
+        cout<<"Enter Feet :"<<endl;
+        cin.unsetf(ios::skipws);
+        cin>>data;
+        if( isFeet(data) ){
+            cin.ignore(10,'\n');
+            feet = atoi(data.c_str());
+            break;
+        }
+        cin.ignore(10, '\n');
+        cout<<"Feet must be less than 1000"<<endl;
+    }//end while feet
+
+    while (true){
+
+        cout<<"Enter Inches"<<endl;
+        cin.unsetf(ios::skipws);
+        cin>>inches;
+        if(inches <0.0 || inches >= 12.0){
+
+            cout<<"Inches Should be between 0.0 and 14.99\n";
+            cin.clear(ios::failbit);
+        }
+        if(cin.good()){
+            cin.ignore(10,'\n');
+            break;
+        }
+        cin.clear();
+        cin.ignore(10,'\n');
+        cout<<"Incorrect inches"<<endl;
+    }
+}
+
+int isFeet(string str){
+    int slen = str.size();
+    if(slen == 0 || slen > 5 ){
+        return 0;
+    }
+    for(int j=0; j<slen; j++)
+        if((str[j] <'0'|| str[j]>'9')&& str[j] != '-')
+            return 0;
+
+    double n = atof(str.c_str());
+    if(n<-999.0 || n>999.0)
+        return 0;
+
+    return 1;
+}
+void Distance::showdist() {
+
+    cout<<"Feet :"<<feet<<endl;
+    cout<<"Inches :"<<inches<<endl;
+}
+
+int main(){
+    Distance d;
+    char ans;
+    do{
+        cout<<"Enter Data"<<endl;
+        d.getdist();
+        cout<<"*****DATA*******"<<endl;
+        d.showdist();
+
+        cout<<"Do you want Another  y/n"<<endl;
+        cin>>ans;
+        cin.ignore(10,'\n');
+    } while (ans != 'n');
+
+    return 0;
+
+}
